@@ -3,7 +3,6 @@ import axios from "axios";
 import Loading from "./components/Loading";
 import Simpsons from "./components/Simpsons";
 import "./App.css";
-import Search from "./components/Search";
 
 class App extends Component {
   state = {};
@@ -44,11 +43,19 @@ class App extends Component {
     this.setState({ searchInput: e.target.value });
   };
 
+  onSortInput = (e) => {
+    // console.log("hi");
+    this.setState({ sortInput: e.target.value });
+  };
+
   // calculate data to display
 
   getFilteredList = () => {
-    const { simpsons, searchInput } = this.state;
+    const { simpsons, searchInput, sortInput } = this.state;
+
     let filteredList = [...simpsons];
+
+    // filter by search
     if (searchInput) {
       filteredList = filteredList.filter((item) => {
         if (item.character.toLowerCase().includes(searchInput.toLowerCase())) {
@@ -56,13 +63,28 @@ class App extends Component {
         }
       });
     }
+
+    // sort by alphabetical
+    if (sortInput == "Asc") {
+      filteredList.sort((itemOne, itemTwo) => {
+        if (itemOne.character > itemTwo.character) return 1;
+        if (itemOne.character < itemTwo.character) return -1;
+      });
+    } else if (sortInput === "Desc") {
+      filteredList.sort((itemOne, itemTwo) => {
+        if (itemOne.character > itemTwo.character) return -1;
+        if (itemOne.character < itemTwo.character) return 1;
+      });
+    }
+
+    // return result of search and sort
     return filteredList;
   };
 
   render() {
     console.log(this.state);
 
-    const { simpsons, searchInput } = this.state;
+    const { simpsons } = this.state;
 
     if (!simpsons) return <Loading />;
 
@@ -84,6 +106,7 @@ class App extends Component {
           onDelete={this.onDelete}
           onLikeToggle={this.onLikeToggle}
           onSearchInput={this.onSearchInput}
+          onSortInput={this.onSortInput}
         />
       </>
     );
