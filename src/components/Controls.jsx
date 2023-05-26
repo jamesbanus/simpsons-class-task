@@ -3,17 +3,26 @@ import React, { Component } from "react";
 class Controls extends Component {
   // state = {  }
   render() {
-    const { onSearchInput, onSortInput } = this.props;
+    const { onSearchInput, onSortInput, onReset } = this.props;
 
     return (
       <>
-        <label htmlFor="character">Search by Character!</label>
-        <input onInput={onSearchInput} type="text" name="character" />
-        <select onInput={onSortInput} name="" id="">
-          <option value=""></option>
-          <option value="Asc">Asc</option>
-          <option value="Desc">Desc</option>
-        </select>
+        <div className="filterContainer">
+          <label htmlFor="character">Search by Character!</label>
+          <input
+            onInput={onSearchInput}
+            type="text"
+            name="character"
+            id="characterSearch"
+          />
+          <label htmlFor="alphabet">Sort by alphabetical order!</label>
+          <select onInput={onSortInput} name="alphabet" id="characterSort">
+            <option value=""></option>
+            <option value="Asc">Asc</option>
+            <option value="Desc">Desc</option>
+          </select>
+          <button onClick={onReset}>Reset!</button>
+        </div>
       </>
     );
   }

@@ -6,7 +6,7 @@ import "./App.css";
 
 class App extends Component {
   state = {};
-
+  initialState;
   async componentDidMount() {
     const { data } = await axios.get(
       `https://thesimpsonsquoteapi.glitch.me/quotes?count=50`
@@ -44,14 +44,21 @@ class App extends Component {
   };
 
   onSortInput = (e) => {
-    // console.log("hi");
     this.setState({ sortInput: e.target.value });
+  };
+
+  onReset = () => {
+    this.setState({ sortInput: "", searchInput: "" });
+    document.getElementById("characterSearch").value = "";
+    document.getElementById("characterSort").value = "";
   };
 
   // calculate data to display
 
   getFilteredList = () => {
     const { simpsons, searchInput, sortInput } = this.state;
+
+    // let { reset } = this.state;
 
     let filteredList = [...simpsons];
 
@@ -107,6 +114,7 @@ class App extends Component {
           onLikeToggle={this.onLikeToggle}
           onSearchInput={this.onSearchInput}
           onSortInput={this.onSortInput}
+          onReset={this.onReset}
         />
       </>
     );
