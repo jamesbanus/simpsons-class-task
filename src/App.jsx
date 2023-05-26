@@ -3,13 +3,14 @@ import axios from "axios";
 import Loading from "./components/Loading";
 import Simpsons from "./components/Simpsons";
 import "./App.css";
+import Search from "./components/Search";
 
 class App extends Component {
   state = {};
 
   async componentDidMount() {
     const { data } = await axios.get(
-      `https://thesimpsonsquoteapi.glitch.me/quotes?count=10`
+      `https://thesimpsonsquoteapi.glitch.me/quotes?count=50`
     );
 
     //fixed the api data to have unique id
@@ -39,8 +40,29 @@ class App extends Component {
     this.setState({ simpsons });
   };
 
+  onSearchInput = (e) => {
+    this.setState({ searchInput: e.target.value });
+  };
+
+  // calculate data to display
+
+  getFilteredList = () => {
+    const { simpsons, searchInput } = this.state;
+    let filteredList = [...simpsons];
+    if (searchInput) {
+      filteredList = filteredList.filter((item) => {
+        if (item.character.toLowerCase().includes(searchInput.toLowerCase())) {
+          return true;
+        }
+      });
+    }
+    return filteredList;
+  };
+
   render() {
-    const { simpsons } = this.state;
+    console.log(this.state);
+
+    const { simpsons, searchInput } = this.state;
 
     if (!simpsons) return <Loading />;
 
@@ -54,11 +76,14 @@ class App extends Component {
 
     return (
       <>
-        <h1>Total no of liked chars #{total}</h1>
+        <div className="headerContainer">
+          <h1>Total no of liked chars #{total}</h1>
+        </div>
         <Simpsons
-          simpsons={simpsons}
+          simpsons={this.getFilteredList()}
           onDelete={this.onDelete}
           onLikeToggle={this.onLikeToggle}
+          onSearchInput={this.onSearchInput}
         />
       </>
     );

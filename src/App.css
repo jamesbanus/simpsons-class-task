@@ -6,6 +6,10 @@
   width: 150px;
 }
 
+.headerContainer {
+  display: flex;
+}
+
 .characterContainer {
   display: flex;
   background-color: cadetblue;

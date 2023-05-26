@@ -10,19 +10,35 @@ class Character extends Component {
       this.props.item;
     const { onLikeToggle, onDelete } = this.props;
 
-    return (
-      <div className="characterContainer">
-        <Name
-          character={character}
-          onLikeToggle={onLikeToggle}
-          id={id}
-          liked={liked}
-        />
-        <Quote quote={quote} />
-        <Image image={image} />
-        <Delete onDelete={onDelete} id={id} />
-      </div>
-    );
+    if (characterDirection === "Left") {
+      return (
+        <div className="characterContainer">
+          <Image image={image} />
+          <Name
+            character={character}
+            onLikeToggle={onLikeToggle}
+            id={id}
+            liked={liked}
+          />
+          <Quote quote={quote} />
+          <Delete onDelete={onDelete} id={id} />
+        </div>
+      );
+    } else {
+      return (
+        <div className="characterContainer">
+          <Name
+            character={character}
+            onLikeToggle={onLikeToggle}
+            id={id}
+            liked={liked}
+          />
+          <Quote quote={quote} />
+          <Image image={image} />
+          <Delete onDelete={onDelete} id={id} />
+        </div>
+      );
+    }
   }
 }
 

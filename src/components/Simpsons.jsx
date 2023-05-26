@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import Character from "./Character";
+import Search from "./Search";
 
 class Simpsons extends Component {
   render() {
-    const { simpsons, onDelete, onLikeToggle } = this.props;
+    const { simpsons, onDelete, onLikeToggle, onSearchInput } = this.props;
 
     return (
       <>
-        {simpsons.map((item, index) => {
+        <Search onSearchInput={onSearchInput} />
+
+        {simpsons.map((item) => {
           return (
             <Character
               item={item}
